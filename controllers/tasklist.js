@@ -2,8 +2,9 @@ const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
+    //#swagger.tags=["Tasklist"]
     try {
-        const tasks = await mongodb.getDatabase().db('cse341').collection('tasklist').find().toArray();
+        const tasks = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').find().toArray();
         
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(tasks);
@@ -13,9 +14,10 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res) => {
+    //#swagger.tags=["Tasklist"]
     try {
         const taskId = new ObjectId(req.params.id);
-        const task = await mongodb.getDatabase().db('cse341').collection('tasklist').findOne({ _id: taskId });
+        const task = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').findOne({ _id: taskId });
         
         if (!task) {
             return res.status(404).json({ message: "Task not found!" })
@@ -29,6 +31,7 @@ const getSingle = async (req, res) => {
 };
 
 const addTask = async (req, res) => {
+    //#swagger.tags=["Tasklist"]
     try {
         const now = new Date();
         const newTask = {
@@ -42,7 +45,7 @@ const addTask = async (req, res) => {
             updatedAt: now
         };
 
-        const result = await mongodb.getDatabase().db('cse341').collection('tasklist').insertOne(newTask);
+        const result = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').insertOne(newTask);
         
         if (result.acknowledged) {
             res.status(201).json({ message: "Task has been created!" });
@@ -55,9 +58,23 @@ const addTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+    //#swagger.tags=["Tasklist"]
+    /*#swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Fields to update (any subset)',
+      schema: {
+        title: "any",
+        description: "any",
+        dueDate: "any",
+        priority: "any",
+        completed: "any",
+        category: "any"
+      }
+    }
+    */
     try {
         const taskId = new ObjectId(req.params.id);
-        const exists = await mongodb.getDatabase().db('cse341').collection('tasklist').findOne({ _id: taskId})
+        const exists = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').findOne({ _id: taskId})
 
         if (!exists) {
             return res.status(404).json({ message: "Task not found."})
@@ -74,7 +91,7 @@ const updateTask = async (req, res) => {
 
         updates.updatedAt = new Date();
 
-        const result = await mongodb.getDatabase().db('cse341').collection('tasklist').replaceOne({ _id: taskId }, { $set: updates } )
+        const result = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').updateOne({ _id: taskId }, { $set: updates } )
         
         if (result.modifiedCount > 0) {
             res.status(204).json({ message: "Task was updated." });
@@ -87,9 +104,10 @@ const updateTask = async (req, res) => {
 };
 
 const deleteTask = async (req, res) => {
+    //#swagger.tags=["Tasklist"]
     try {
         const taskId = new ObjectId(req.params.id);
-        const result = await mongodb.getDatabase().db('cse341').collection('tasklist').deleteOne({ _id: taskId });
+        const result = await mongodb.getDatabase().db('cse341Project2').collection('tasklist').deleteOne({ _id: taskId });
 
         if (result.deletedCount > 0) {
             res.status(204).send();

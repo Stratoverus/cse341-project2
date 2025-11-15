@@ -1,8 +1,6 @@
 require('dotenv').config();
 const swaggerAutogen = require('swagger-autogen')();
 
-const HOSTNAME = process.env.HOSTNAME;
-
 const doc = {
   info: {
     title: 'Tasklist API project for CSE 341',

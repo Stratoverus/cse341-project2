@@ -51,6 +51,60 @@ validate.taskInformation = () => {
     ]
 }
 
+validate.taskUpdateInformation = () => {
+    return [
+        // title is optional while updating and must be string
+        body("title")
+        .optional()
+        .trim()
+        .escape()
+        .notEmpty()
+        .isLength({ min: 1 })
+        .withMessage("Please provide a title."),
+
+        // description is optional while updating and must be string
+        body("description")
+        .optional()
+        .trim()
+        .escape()
+        .notEmpty()
+        .isLength({ min: 2 })
+        .withMessage("Please provide a description."),
+
+        // valid due date is optional while updating: YYYY-MM-DD
+        body("dueDate")
+        .optional()
+        .trim()
+        .isISO8601()
+        .withMessage("A valid due date is required(YYYY-MM-DD)."),
+
+        // priority is not optional while updating
+        body("priority")
+        .optional()
+        .trim()
+        .escape()
+        .isIn(['low', 'medium', 'high', 'critical'])
+        .withMessage("Please provide a proper priority(low, medium, high, critical)."),
+
+        // completed is not optional while updating
+        body("completed")
+        .optional()
+        .trim()
+        .escape()
+        .isBoolean()
+        .withMessage("Please a true or false."),
+
+        // Category is optional while updating
+        body("category")
+        .optional()
+        .trim()
+        .escape()
+        .notEmpty()
+        .isLength({ min: 3 })
+        .withMessage("Please provide a proper category."),
+    ]
+}
+
 // middleware to check validation results
 validate.taskResult = (req, res, next) => {
     const errors = validationResult(req);

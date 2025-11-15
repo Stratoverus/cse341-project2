@@ -9,7 +9,7 @@ router.get('/:id', tasklistController.getSingle);
 
 router.post('/', taskValidation.taskInformation(), taskValidation.taskResult, tasklistController.addTask)
 
-router.put('/:id', taskValidation.taskInformation(), taskValidation.taskResult, tasklistController.updateTask)
+router.put('/:id', taskValidation.taskUpdateInformation(), taskValidation.taskResult, tasklistController.updateTask)
 
 router.delete('/:id', tasklistController.deleteTask)
 
