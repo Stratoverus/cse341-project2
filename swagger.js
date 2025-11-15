@@ -7,9 +7,7 @@ const doc = {
   info: {
     title: 'Tasklist API project for CSE 341',
     description: 'Project 02 for CSE 341. This is a tasklist in API form.'
-  },
-  host: HOSTNAME,
-  schemes: ['http', 'https']
+  }
 };
 
 const outputFile = './swagger-output.json';
