@@ -1,7 +1,7 @@
 require('dotenv').config();
 const swaggerAutogen = require('swagger-autogen')();
 
-const HOSTNAME = process.env.HOSTNAME || 'localhost:3000';
+const HOSTNAME = process.env.HOSTNAME;
 
 const doc = {
   info: {
