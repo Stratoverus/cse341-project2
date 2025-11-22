@@ -1,16 +1,18 @@
 const router = require('express').Router();
 
 const tasklistController = require('../controllers/tasklist');
-const taskValidation = require("../utilities/taskValidation")
+const taskValidation = require("../utilities/taskValidation");
+
+const { isAuthenticated } = require('../utilities/authenticate');
 
 router.get('/', tasklistController.getAll);
 
 router.get('/:id', tasklistController.getSingle);
 
-router.post('/', taskValidation.taskInformation(), taskValidation.taskResult, tasklistController.addTask)
+router.post('/', isAuthenticated, taskValidation.taskInformation(), taskValidation.taskResult, tasklistController.addTask)
 
-router.put('/:id', taskValidation.taskUpdateInformation(), taskValidation.taskResult, tasklistController.updateTask)
+router.put('/:id', isAuthenticated, taskValidation.taskUpdateInformation(), taskValidation.taskResult, tasklistController.updateTask)
 
-router.delete('/:id', tasklistController.deleteTask)
+router.delete('/:id', isAuthenticated, tasklistController.deleteTask)
 
 module.exports = router;
